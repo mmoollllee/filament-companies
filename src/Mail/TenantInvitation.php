@@ -36,6 +36,6 @@ class TenantInvitation extends Mailable
         $acceptUrl = FilamentTenants::generateAcceptInvitationUrl($this->invitation);
 
         return $this->markdown('filament-tenants::mail.tenant-invitation', compact('acceptUrl'))
-            ->subject(__('Tenant Invitation'));
+            ->subject(__('filament-tenants::default.invitation.subject', ['tenant' => $this->invitation->tenant->name]));
     }
 }

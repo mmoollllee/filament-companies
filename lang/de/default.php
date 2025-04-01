@@ -346,4 +346,8 @@ return [
             'delete_tenant' => 'Sobald eine Firma gelöscht wird, werden alle ihre Ressourcen und Daten dauerhaft gelöscht. Bevor Sie diese Firma löschen, laden Sie bitte alle Daten oder Informationen herunter, die Sie behalten möchten.',
         ],
     ],
+
+    'invitation' => [
+        'subject' => 'Einladung zur Freigabe zu :tenant',
+    ],
 ];

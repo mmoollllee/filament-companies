@@ -349,4 +349,8 @@ return [
             'delete_tenant' => 'Once a company is deleted, all of its resources and data will be permanently deleted. Before deleting this company, please download any data or information regarding this company that you wish to retain.',
         ],
     ],
+
+    'invitation' => [
+        'subject' => 'Invitation for Sharing :tenant',
+    ],
 ];

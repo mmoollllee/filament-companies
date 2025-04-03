@@ -182,6 +182,11 @@ return [
             'title' => 'Bestätigungslink gesendet',
             'body' => 'Ein neuer Bestätigungslink wurde an die angegebene E-Mail-Adresse gesendet.',
         ],
+
+        'user_deleted' => [
+            'title' => 'Konto gelöscht',
+            'body' => 'Das Konto wurde erfolgreich gelöscht.',
+        ],
     ],
 
     'navigation' => [
@@ -263,12 +268,12 @@ return [
     'modal_descriptions' => [
         'copy_token' => 'Bitte kopieren Sie Ihren neuen persönlichen Zugangstoken. Aus Sicherheitsgründen wird er nicht noch einmal angezeigt.',
         'confirm_password' => 'Bitte bestätigen Sie aus Sicherheitsgründen Ihr Passwort, um fortzufahren.',
-        'delete_account' => 'Bitte geben Sie Ihr Passwort ein, um die Löschung Ihres Kontos zu bestätigen.',
-        'delete_token' => 'Sind Sie sicher, dass Sie diesen persönlichen Zugangstoken löschen möchten?',
-        'delete_tenant' => 'Sind Sie sicher, dass Sie diese Firma löschen möchten?',
-        'leave_tenant' => 'Sind Sie sicher, dass Sie diese Firma verlassen möchten?',
+        'delete_account' => 'Bitte geben Sie Ihr Passwort ein, um die Löschung dieses Kontos zu bestätigen.',
+        'delete_token' => 'Sind Sie sicher, dass Sie diese persönlichen Zugangstoken löschen möchten?',
+        'delete_tenant' => 'Sind Sie sicher, dass Sie diese Instanz löschen möchten?',
+        'leave_tenant' => 'Sind Sie sicher, dass Sie diese Instanz verlassen möchten?',
         'logout_browser_sessions' => 'Bitte geben Sie Ihr Passwort ein, um zu bestätigen, dass Sie sich von Ihren anderen Browsersitzungen abmelden möchten.',
-        'remove_tenant_employee' => 'Sind Sie sicher, dass Sie diese Person aus der Firma entfernen möchten?',
+        'remove_tenant_employee' => 'Sind Sie sicher, dass Sie diese Person aus der Instanz entfernen möchten?',
         'remove_connected_account' => 'Bitte bestätigen Sie die Entfernung dieses Kontos - diese Aktion kann nicht rückgängig gemacht werden.',
         'revoke_tokens' => 'Bitte geben Sie Ihr Passwort ein, um zu bestätigen.',
     ],

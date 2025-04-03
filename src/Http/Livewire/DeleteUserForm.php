@@ -47,7 +47,7 @@ class DeleteUserForm extends Component
 
         $auth = Filament::auth();
 
-        if (! Hash::check($this->password, $this->user->password)) {
+        if (! Hash::check($this->password, $auth->user()->password)) {
             throw ValidationException::withMessages([
                 'password' => [__('filament-tenants::default.errors.invalid_password')],
             ]);
@@ -55,7 +55,7 @@ class DeleteUserForm extends Component
 
         $deleter->delete($this->user?->fresh());
 
-        if ($deleter === $this->user) {
+        if ($auth->user() === $this->user) {
             $auth->logout();
 
             if (session() !== null) {
@@ -67,12 +67,14 @@ class DeleteUserForm extends Component
         }
 
         if (FilamentTenants::hasNotificationsFeature()) {
-            if (method_exists($deleter, 'passwordUpdated')) {
+            if (method_exists($auth->user(), 'passwordUpdated')) {
                 $deleter->userDeleted($this->user, $this->state);
             } else {
                 $this->userDeleted();
             }
         }
+
+        return redirect()->to(route('filament.global.resources.users.index'));
     }
 
     /**

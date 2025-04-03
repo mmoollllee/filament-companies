@@ -13,9 +13,6 @@
 
     <x-filament::section>
         <div class="grid gap-y-6">
-            <p class="text-sm text-gray-600 dark:text-gray-400">
-                {{ __('filament-tenants::default.subheadings.profile.delete_user') }}
-            </p>
 
             <!-- Delete User Confirmation Modal -->
             <x-filament::modal id="confirmingUserDeletion" icon="heroicon-o-exclamation-triangle" icon-color="danger" alignment="{{ $modals['alignment'] }}" footer-actions-alignment="{{ $modals['formActionsAlignment'] }}" width="{{ $modals['width'] }}">

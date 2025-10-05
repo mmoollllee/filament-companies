@@ -19,7 +19,7 @@ class TenantInvitationController extends Controller
     /**
      * Accept a tenant invitation.
      */
-    public function accept(Request $request, int|string $invitationId): Redirector | RedirectResponse | null
+    public function accept(Request $request, int | string $invitationId): Redirector | RedirectResponse | null
     {
         $model = FilamentTenants::tenantInvitationModel();
 

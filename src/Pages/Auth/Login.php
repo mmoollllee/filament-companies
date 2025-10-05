@@ -2,18 +2,16 @@
 
 namespace Wallo\FilamentTenants\Pages\Auth;
 
-use Filament\Forms\Form;
-use Filament\Pages\Auth\Login as FilamentLogin;
+use Filament\Schemas\Schema;
 use Wallo\FilamentTenants\FilamentTenants;
 
-class Login extends FilamentLogin
+class Login extends \Filament\Auth\Pages\Login
 {
-    public static string $view = 'filament-tenants::auth.login';
 
-    public function form(Form $form): Form
+    public function form(Schema $schema): Schema
     {
-        return $form
-            ->schema([
+        return $schema
+            ->components([
                 $this->getEmailFormComponent(),
                 $this->getPasswordFormComponent(),
                 $this->getRememberFormComponent(),

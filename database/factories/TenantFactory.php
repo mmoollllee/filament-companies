@@ -23,7 +23,7 @@ class TenantFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => $this->faker->unique()->company(),
+            'name' => $this->faker->unique()->tenant(),
             'user_id' => User::factory(),
             'personal_tenant' => true,
         ];

@@ -2,11 +2,14 @@
 
 namespace Wallo\FilamentTenants;
 
+use Filament\Auth\Http\Responses\Contracts\RegistrationResponse as RegistrationResponseContract;
 use Filament\Contracts\Plugin;
 use Filament\Events\TenantSet;
-use Filament\Http\Responses\Auth\Contracts\RegistrationResponse as RegistrationResponseContract;
 use Filament\Panel;
+use Filament\Support\Facades\FilamentView;
+use Filament\View\PanelsRenderHook;
 use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Event;
 use Livewire\Livewire;
 use Wallo\FilamentTenants\Contracts\CreatesConnectedAccounts;
@@ -21,6 +24,7 @@ use Wallo\FilamentTenants\Pages\Tenant\CreateTenant;
 
 class FilamentTenants implements Plugin
 {
+    use Concerns\Base\HasAddedTenantComponents;
     use Concerns\Base\HasAddedProfileComponents;
     use Concerns\Base\HasAutoAcceptInvitations;
     use Concerns\Base\HasBaseActionBindings;
@@ -34,6 +38,7 @@ class FilamentTenants implements Plugin
     use Concerns\Base\HasPermissions;
     use Concerns\Base\HasRoutes;
     use Concerns\Base\HasTermsAndPrivacyPolicy;
+    use Concerns\ManagesTenantComponents;
     use Concerns\ManagesProfileComponents;
     use Concerns\Socialite\CanEnableSocialite;
     use Concerns\Socialite\HasConnectedAccountModel;
@@ -55,6 +60,7 @@ class FilamentTenants implements Plugin
 
     public function register(Panel $panel): void
     {
+        static::$tenantPanel = $panel->getId();
         if (static::hasTenantFeatures()) {
             Livewire::component('filament.pages.tenants.create_tenant', CreateTenant::class);
             Livewire::component('filament.pages.tenants.tenant_settings', TenantSettings::class);
@@ -84,5 +90,22 @@ class FilamentTenants implements Plugin
         if (static::switchesCurrentTenant()) {
             Event::listen(TenantSet::class, SwitchCurrentTenant::class);
         }
+
+        if (static::hasSocialiteFeatures()) {
+            $this->registerSocialiteRenderHooks();
+        }
+    }
+
+    protected function registerSocialiteRenderHooks(): void
+    {
+        FilamentView::registerRenderHook(
+            PanelsRenderHook::AUTH_LOGIN_FORM_AFTER,
+            fn (): View => view('filament-tenants::components.socialite-login'),
+        );
+
+        FilamentView::registerRenderHook(
+            PanelsRenderHook::AUTH_REGISTER_FORM_AFTER,
+            fn (): View => view('filament-tenants::components.socialite-login'),
+        );
     }
 }

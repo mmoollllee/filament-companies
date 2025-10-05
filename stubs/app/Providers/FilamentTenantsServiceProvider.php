@@ -47,11 +47,11 @@ class FilamentTenantsServiceProvider extends PanelProvider
             ->default()
             ->login(Login::class)
             ->passwordReset()
-            ->homeUrl(function (): ?string {
+            ->homeUrl(static function (): ?string {
                 $user = Auth::user();
 
                 if ($tenant = $user?->primaryTenant()) {
-                    return Pages\Dashboard::getUrl(panel: 'tenant', tenant: $tenant);
+                    return Pages\Dashboard::getUrl(panel: FilamentTenants::getTenantsPanel(), tenant: $tenant);
                 }
 
                 return Filament::getPanel(FilamentTenants::getTenantPanel())->getTenantRegistrationUrl();
@@ -66,7 +66,9 @@ class FilamentTenantsServiceProvider extends PanelProvider
                     ->accountDeletion()
                     ->profilePhotos()
                     ->api()
-                    ->tenants(invitations: true)
+                    ->updateTenantInformation()
+                    ->manageTenantEmployees()
+                    ->tenantDeletion()
                     ->autoAcceptInvitations()
                     ->termsAndPrivacyPolicy()
                     ->notifications()
@@ -88,7 +90,8 @@ class FilamentTenantsServiceProvider extends PanelProvider
                 'profile' => MenuItem::make()
                     ->label('Profile')
                     ->icon('heroicon-o-user-circle')
-                    ->url(static fn () => route(Profile::getRouteName(panel: 'admin'))),
+                    // ->url(static fn () => route(Profile::getRouteName(panel: 'admin'))),
+                    ->url(static fn () => Profile::getUrl(panel: FilamentTenants::getUserPanel())),
             ])
             ->authGuard('web')
             ->discoverWidgets(in: app_path('Filament/Tenant/Widgets'), for: 'App\\Filament\\Tenant\\Widgets')

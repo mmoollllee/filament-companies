@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Auth;
 
 class Profile extends Page
 {
-    protected static string $view = 'filament-tenants::filament.pages.user.profile';
+    protected string $view = 'filament-tenants::filament.pages.user.profile';
 
     protected static bool $shouldRegisterNavigation = false;
 

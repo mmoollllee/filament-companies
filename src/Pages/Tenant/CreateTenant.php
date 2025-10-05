@@ -3,9 +3,9 @@
 namespace Wallo\FilamentTenants\Pages\Tenant;
 
 use Filament\Forms\Components\TextInput;
-use Filament\Forms\Form;
 use Filament\Notifications\Notification;
 use Filament\Pages\Tenancy\RegisterTenant as FilamentRegisterTenant;
+use Filament\Schemas\Schema;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
@@ -15,8 +15,6 @@ use Wallo\FilamentTenants\FilamentTenants;
 
 class CreateTenant extends FilamentRegisterTenant
 {
-    protected static string $view = 'filament-tenants::filament.pages.tenants.create_tenant';
-
     public static function getLabel(): string
     {
         return __('filament-tenants::default.pages.titles.create_tenant');
@@ -33,9 +31,9 @@ class CreateTenant extends FilamentRegisterTenant
         ];
     }
 
-    public function form(Form $form): Form
+    public function form(Schema $schema): Schema
     {
-        return $form
+        return $schema
             ->schema($this->formSchema())
             ->model(FilamentTenants::tenantModel())
             ->statePath('data');

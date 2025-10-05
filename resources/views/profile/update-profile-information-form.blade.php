@@ -8,7 +8,7 @@
     </x-slot>
 
     <x-filament::section>
-        <x-filament-panels::form wire:submit="updateProfileInformation">
+        <form wire:submit="updateProfileInformation" class="fi-sc-form">
             <!-- Profile Photo -->
             @if (Wallo\FilamentTenants\FilamentTenants::managesProfilePhotos())
                 <div x-data="{ photoName: null, photoPreview: null }" class="space-y-2">
@@ -25,9 +25,13 @@
                                 reader.readAsDataURL($refs.photo.files[0]);
                     " />
 
-                    <x-filament-forms::field-wrapper.label for="photo">
-                        {{ __('filament-tenants::default.labels.photo') }}
-                    </x-filament-forms::field-wrapper.label>
+                    <div class="fi-fo-field">
+                        <label for="photo" class="fi-fo-field-label">
+                            <span class="fi-fo-field-label-content">
+                                {{ __('filament-tenants::default.labels.photo') }}
+                            </span>
+                        </label>
+                    </div>
 
                     <!-- Current Profile Photo -->
                     <div x-show="! photoPreview">
@@ -54,14 +58,14 @@
             @endif
 
             <!-- Name -->
-            <x-filament-forms::field-wrapper id="name" statePath="name" required="required" label="{{ __('filament-tenants::default.fields.name') }}">
+            <x-filament-forms::field-wrapper id="name" state-path="name" required label="{{ __('filament-tenants::default.fields.name') }}">
                 <x-filament::input.wrapper class="overflow-hidden">
                     <x-filament::input id="name" type="text" maxLength="255" required="required" wire:model="state.name" autocomplete="name" />
                 </x-filament::input.wrapper>
             </x-filament-forms::field-wrapper>
 
             <!-- Email -->
-            <x-filament-forms::field-wrapper id="email" statePath="email" required="required" label="{{ __('filament-tenants::default.fields.email') }}">
+            <x-filament-forms::field-wrapper id="email" state-path="email" required label="{{ __('filament-tenants::default.fields.email') }}">
                 <x-filament::input.wrapper class="overflow-hidden">
                     <x-filament::input id="email" type="email" wire:model="state.email" maxLength="255" required="required" autocomplete="username" />
                 </x-filament::input.wrapper>
@@ -72,6 +76,6 @@
                     {{ __('filament-tenants::default.buttons.save') }}
                 </x-filament::button>
             </div>
-        </x-filament-panels::form>
+        </form>
     </x-filament::section>
 </x-filament-tenants::grid-section>

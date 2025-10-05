@@ -17,10 +17,6 @@
     @endphp
 
     @foreach($components as $index => $component)
-        @livewire($component, ['user' => $user])
-
-        @if($loop->remaining)
-            <x-filament-tenants::section-border />
-        @endif
+        @livewire($component)
     @endforeach
 </x-filament-panels::page>

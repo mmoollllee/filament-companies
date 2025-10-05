@@ -7,11 +7,13 @@ use Filament\Notifications\Notification;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Contracts\View\View;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
+use Livewire\Attributes\Computed;
 use Livewire\Component;
 use Wallo\FilamentTenants\Actions\UpdateTenantEmployeeRole;
 use Wallo\FilamentTenants\Contracts\AddsTenantEmployees;
@@ -114,6 +116,7 @@ class TenantEmployeeManager extends Component
     public function cancelTenantInvitation(int $invitationId): void
     {
         if (! empty($invitationId)) {
+            /** @var class-string<Model> $model */
             $model = FilamentTenants::tenantInvitationModel();
 
             $model::whereKey($invitationId)->delete();
@@ -235,7 +238,8 @@ class TenantEmployeeManager extends Component
     /**
      * Get the current user of the application.
      */
-    public function getUserProperty(): ?Authenticatable
+    #[Computed]
+    public function user(): ?Authenticatable
     {
         return Auth::user();
     }
@@ -243,7 +247,8 @@ class TenantEmployeeManager extends Component
     /**
      * Get the available tenant employee roles.
      */
-    public function getRolesProperty(): array
+    #[Computed]
+    public function roles(): array
     {
         return collect(FilamentTenants::$roles)->transform(static function ($role) {
             return with($role->jsonSerialize(), static function ($data) {
@@ -264,7 +269,7 @@ class TenantEmployeeManager extends Component
         return view('filament-tenants::tenants.tenant-employee-manager');
     }
 
-    public function employeeInvitationSent($email): void
+    public function employeeInvitationSent(#[\SensitiveParameter] $email): void
     {
         Notification::make()
             ->title(__('filament-tenants::default.notifications.tenant_invitation_sent.title'))

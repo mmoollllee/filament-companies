@@ -33,7 +33,7 @@
                 </x-slot>
 
                 <x-filament-forms::field-wrapper id="password" statePath="password" x-data="{}" x-on:confirming-delete-user.window="setTimeout(() => $refs.password.focus(), 250)">
-                    <x-filament::input.wrapper>
+                    <x-filament::input.wrapper class="overflow-hidden">
                         <x-filament::input type="password" placeholder="{{ __('filament-tenants::default.fields.password') }}" x-ref="password" wire:model="password" wire:keydown.enter="deleteUser" />
                     </x-filament::input.wrapper>
                 </x-filament-forms::field-wrapper>

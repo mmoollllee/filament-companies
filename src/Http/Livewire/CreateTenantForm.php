@@ -10,6 +10,7 @@ use Illuminate\Http\Response;
 use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
+use Livewire\Attributes\Computed;
 use Livewire\Component;
 use Wallo\FilamentTenants\Contracts\CreatesTenants;
 use Wallo\FilamentTenants\RedirectsActions;
@@ -42,7 +43,8 @@ class CreateTenantForm extends Component
     /**
      * Get the current user of the application.
      */
-    public function getUserProperty(): ?Authenticatable
+    #[Computed]
+    public function user(): ?Authenticatable
     {
         return Auth::user();
     }

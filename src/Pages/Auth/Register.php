@@ -3,21 +3,18 @@
 namespace Wallo\FilamentTenants\Pages\Auth;
 
 use Filament\Forms\Components\Checkbox;
-use Filament\Forms\Components\Component;
-use Filament\Forms\Form;
-use Filament\Pages\Auth\Register as FilamentRegister;
+use Filament\Schemas\Components\Component;
+use Filament\Schemas\Schema;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\HtmlString;
 use Wallo\FilamentTenants\FilamentTenants;
 
-class Register extends FilamentRegister
+class Register extends \Filament\Auth\Pages\Register
 {
-    protected static string $view = 'filament-tenants::auth.register';
-
-    public function form(Form $form): Form
+    public function form(Schema $schema): Schema
     {
-        return $form
-            ->schema([
+        return $schema
+            ->components([
                 $this->getNameFormComponent(),
                 $this->getEmailFormComponent(),
                 $this->getPasswordFormComponent(),

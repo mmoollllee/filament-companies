@@ -1,16 +1,15 @@
 @props(['title','description'])
-<x-filament::grid @class(["pt-6 gap-4 filament-tenants-grid-section"]) {{ $attributes }}>
+<div @class(["pt-6 grid grid-cols-1 md:grid-cols-2 gap-4 filament-tenants-grid-section"]) {{ $attributes }}>
 
-    <x-filament::grid.column>
+    <div>
         <h3 @class(['text-lg font-medium filament-tenants-grid-title'])>{{$title}}</h3>
 
         <p @class(['mt-1 text-sm text-gray-500 filament-tenants-grid-description'])>
             {{$description}}
         </p>
-    </x-filament::grid.column>
+    </div>
 
-    <x-filament::grid.column>
+    <div>
         {{ $slot }}
-    </x-filament::grid.column>
-
-</x-filament::grid>
+    </div>
+</div>

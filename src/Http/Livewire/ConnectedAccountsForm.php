@@ -9,6 +9,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Livewire\Attributes\Computed;
 use Livewire\Component;
 use Livewire\Features\SupportRedirects\Redirector;
 use Wallo\FilamentTenants\ConnectedAccount;
@@ -28,7 +29,8 @@ class ConnectedAccountsForm extends Component
      *
      * @return string[]
      */
-    public function getProvidersProperty(): array
+    #[Computed]
+    public function providers(): array
     {
         return FilamentTenants::enabledProviders();
     }
@@ -36,7 +38,8 @@ class ConnectedAccountsForm extends Component
     /**
      * Get the current user of the application.
      */
-    public function getUserProperty(): ?Authenticatable
+    #[Computed]
+    public function user(): ?Authenticatable
     {
         return Auth::user();
     }
@@ -96,14 +99,15 @@ class ConnectedAccountsForm extends Component
     /**
      * Get the users connected accounts.
      */
-    public function getAccountsProperty(): Collection
+    #[Computed]
+    public function accounts(): Collection
     {
         if ($this->user?->connectedAccounts === null) {
             return collect();
         }
 
         return $this->user->connectedAccounts
-            ->map(static function (ConnectedAccount $account) {
+            ->map(static function (#[\SensitiveParameter] ConnectedAccount $account) {
                 return (object) $account->getSharedData();
             });
     }

@@ -2,14 +2,19 @@
 
 namespace Wallo\FilamentTenants\Concerns\Base;
 
-use Filament\Facades\Filament;
+use LogicException;
 
 trait HasPanels
 {
     /**
      * The user panel.
      */
-    public static ?string $userPanel = null;
+    protected static string $userPanel;
+
+    /**
+     * The tenant panel.
+     */
+    protected static string $tenantPanel;
 
     /**
      * Set the user panel.
@@ -26,6 +31,10 @@ trait HasPanels
      */
     public static function getUserPanel(): string
     {
+        if (! isset(static::$userPanel)) {
+            throw new LogicException('FilamentTenants plugin has not been configured with a user panel.');
+        }
+
         return static::$userPanel;
     }
 
@@ -34,20 +43,18 @@ trait HasPanels
      */
     public static function hasUserPanel(): bool
     {
-        return static::$userPanel !== null;
+        return isset(static::$userPanel);
     }
 
     /**
      * Get the panel where the plugin is registered (The tenant panel).
      */
-    public static function getTenantPanel(): ?string
+    public static function getTenantPanel(): string
     {
-        foreach (Filament::getPanels() as $panel) {
-            if ($panel->hasPlugin('tenants')) {
-                return $panel->getId();
-            }
+        if (! isset(static::$tenantPanel)) {
+            throw new LogicException('FilamentTenants plugin has not been registered to any panel.');
         }
 
-        return null;
+        return static::$tenantPanel;
     }
 }

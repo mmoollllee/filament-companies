@@ -1,5 +1,32 @@
 # Upgrade Guide
 
+## Upgrading from FilamentTenants 4.x to 5.x
+
+Version 5.x introduces more granular control over tenant features. Previously, enabling `tenants()` would automatically enable all tenant management features. Now you must explicitly enable each feature you want to use.
+
+### Breaking Changes
+
+Tenant features now require explicit configuration:
+
+**Before (4.x):**
+
+```php
+FilamentTenants::make()
+    ->tenants(invitations: true)  // This enabled all tenant features
+```
+
+**After (5.x):**
+
+```php
+FilamentTenants::make()
+    ->tenants(invitations: true)           // Only enables basic tenant support
+    ->updateTenantInformation()             // Explicitly enable tenant name updates
+    ->manageTenantEmployees()               // Explicitly enable employee management
+    ->tenantDeletion()                      // Explicitly enable tenant deletion
+```
+
+This change provides better security through the principle of least privilege and clearer understanding of which features are active in your application.
+
 ## Upgrading from FilamentTenants 3.x to 4.x
 
 This major release introduces significant changes designed to streamline the usage of FilamentTenants. Here’s how to migrate your project from 3.x to 4.x.
@@ -7,16 +34,18 @@ This major release introduces significant changes designed to streamline the usa
 ### Breaking Changes
 
 1. Removal of Classes:
-   - `Wallo\FilamentTenants\Features`
-   - `Wallo\FilamentTenants\Providers`
-   - `Wallo\FilamentTenants\Socialite`
+
+    - `Wallo\FilamentTenants\Features`
+    - `Wallo\FilamentTenants\Providers`
+    - `Wallo\FilamentTenants\Socialite`
 
 2. Introduction of Enums:
-   - Functionality previously available through the `Providers` class has been replaced by the `Wallo\FilamentTenants\Enums\Provider` enum.
-   - Some functionality previously available through the `Socialite` class has been replaced by the `Wallo\FilamentTenants\Enums\Feature` enum.
+
+    - Functionality previously available through the `Providers` class has been replaced by the `Wallo\FilamentTenants\Enums\Provider` enum.
+    - Some functionality previously available through the `Socialite` class has been replaced by the `Wallo\FilamentTenants\Enums\Feature` enum.
 
 3. Removal of the `MakeUserCommand` command.
-   - It isn't necessary and was removed to simplify the package.
+    - It isn't necessary and was removed to simplify the package.
 
 ### Migration Steps
 
@@ -97,7 +126,9 @@ Feature::RememberSession->isEnabled(),
 ```
 
 ### Important Notes
+
 > The rest of the methods previously available in the `Socialite` and `Features` classes are still available and were moved to the main `Wallo\FilamentTenants\FilamentTenants` class.
 
 ### Further Assistance
+
 Should you encounter any issues during the upgrade process, please don’t hesitate to reach out Discord or by creating a new Discussion on GitHub.

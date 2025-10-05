@@ -8,7 +8,7 @@
     </x-slot>
 
     <x-filament::section>
-        <x-filament-panels::form wire:submit="setPassword">
+        <form wire:submit="setPassword" class="fi-sc-form">
             <x-filament-forms::field-wrapper id="password" statePath="password" required="required" label="{{ __('filament-tenants::default.labels.new_password') }}">
                 <x-filament::input.wrapper class="overflow-hidden">
                     <x-filament::input id="password" type="password" wire:model="state.password" autocomplete="new-password" />
@@ -26,6 +26,6 @@
                     {{ __('filament-tenants::default.buttons.save') }}
                 </x-filament::button>
             </div>
-        </x-filament-panels::form>
+        </form>
     </x-filament::section>
 </x-filament-tenants::grid-section>

@@ -1,19 +1,20 @@
 <x-filament-panels::page>
-    @php
-        $components = \Wallo\FilamentTenants\FilamentTenants::getTenantComponents();
-        $deleteTenantForm = \Wallo\FilamentTenants\FilamentTenants::getDeleteTenantForm();
-    @endphp
+@if (Gate::check('update', $tenant))
+    <form id="form" wire:submit="save" class="gap-y-1">
+        {{ $this->form }}
 
-    <div class="space-y-6">
-        @foreach($components as $component)
-            @if($component === $deleteTenantForm)
-                @if (! $tenant->personal_tenant && Gate::check('delete', $tenant))
-                    @livewire($component, compact('tenant'))
-                @endif
-            @else
-                @livewire($component, compact('tenant'))
-            @endif
-        @endforeach
-    </div>
+        <div class="text-right">
+            <x-filament::button type="submit">
+                {{ __('filament-tenants::default.buttons.save') }}
+            </x-filament::button>
+        </div>
+    </form>
+    
+    @livewire(\Wallo\FilamentTenants\Http\Livewire\TenantEmployeeManager::class, compact('tenant'))
+    
+    @if (!$tenant->personal_tenant && Gate::check('delete', $tenant))
+    <x-filament-tenants::section-border />
+    @livewire(\Wallo\FilamentTenants\Http\Livewire\DeleteTenantForm::class, compact('tenant'))
+    @endif
+@endif
 </x-filament-panels::page>
-

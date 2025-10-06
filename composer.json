@@ -1,5 +1,5 @@
 {
-    "name": "andrewdwallo/filament-tenants",
+    "name": "andrewdwallo/filament-companies",
     "description": "A comprehensive Laravel authentication and authorization system designed for Filament, focusing on multi-tenant tenant management.",
     "keywords": [
         "andrewdwallo",
@@ -16,7 +16,7 @@
         "crm",
         "business management"
     ],
-    "homepage": "https://github.com/andrewdwallo/filament-tenants",
+    "homepage": "https://github.com/andrewdwallo/filament-companies",
     "license": "MIT",
     "authors": [
         {

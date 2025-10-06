@@ -1,5 +1,5 @@
 <x-filament-panels::page>
-    <x-filament-panels::form id="form" wire:submit="save" class="gap-y-1">
+    <form wire:submit="save" id="form" class="grid gap-y-1">
         {{ $this->form }}
 
         @if (Gate::check('update'))
@@ -9,7 +9,7 @@
                 </x-filament::button>
             </div>
         @endif
-    </x-filament-panels::form>
+    </form>
 
     @php
         $components = \Wallo\FilamentTenants\FilamentTenants::getProfileComponents();

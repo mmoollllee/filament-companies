@@ -1,21 +1,10 @@
 ![gif (1)](https://user-images.githubusercontent.com/104294090/221399175-add7c34b-4887-49b7-9061-6781f6391409.gif)
-<p align="center">
-    <a href="https://filamentphp.com/docs/3.x/panels/installation">
-        <img alt="FILAMENT 3.x" src="https://img.shields.io/badge/FILAMENT-3.x-EBB304?style=for-the-badge">
-    </a>
-    <a href="https://packagist.org/packages/andrewdwallo/filament-tenants">
-        <img alt="Packagist" src="https://img.shields.io/packagist/v/andrewdwallo/filament-tenants.svg?style=for-the-badge&logo=packagist">
-    </a>
-    <a href="https://packagist.org/packages/andrewdwallo/filament-tenants/stats">
-        <img alt="Downloads" src="https://img.shields.io/packagist/dt/andrewdwallo/filament-tenants?style=for-the-badge&logo=packagist&logoColor=red&color=red">
-    </a>
-</p>
 
 <hr style="background-color: #ebb304">
 
-# Filament Tenants
+# Filament Tenants (Fork of Filament Companies)
 
-A comprehensive multi-tenant authentication and authorization solution designed for Filament, with a focus on tenant-based tenancy.
+A comprehensive multi-tenant authentication and authorization solution for Filament, adapted from `andrewdwallo/filament-companies` with tenant-first naming and APIs.
 
 - 🔥 **Socialite**
 - 🔥 **Terms & Privacy Policy**
@@ -26,27 +15,37 @@ A comprehensive multi-tenant authentication and authorization solution designed 
 - 🔥 **Tenant Management**
 - 🔥 **Employee Invitations via Email**
 - 🔥 **Roles & Permissions**
+- 🔥 **Auto-Accept Invitations**
+
+## Differences From `filament-companies` (`5.x`)
+
+- Renamed company to tenant across namespaces, models,...
+- Optional global super-admin behavior in `HasTenants::ownsTenant()` via `isSuperAdmin()` on your user model.
+- Tenant-specific page flow for registration/settings (`CreateTenant`, `TenantSettings`) including reusable `CreateTenant::formSchema()`.
+- Tenant invitation email subject now uses translations and includes the tenant name.
+
 
 # Getting Started
 
 * Create a fresh Laravel Project
 * Configure your database
-* Install the [Panel Builder](https://filamentphp.com/docs/3.x/panels/installation#installation)
+* Install the [Panel Builder](https://filamentphp.com/docs/5.x/introduction/installation#installing-the-panel-builder)
 
-After installing the Panel Builder, make sure that you have created a panel using the following command:
+After installing the Panel Builder, ensure that you have created a panel using:
 ```shell
 php artisan filament:install --panels
 ```
 > 📝 If you've followed the Panel Builder documentation, you should have already done this.
 
-# Installation
+## Installation (This Fork)
 
-Install the package
+Because this fork keeps the original Composer package name (`andrewdwallo/filament-companies`), install it by pinning this repository and branch:
 ```shell
-composer require andrewdwallo/filament-tenants
+composer config repositories.filament-tenants vcs https://github.com/mmoollllee/filament-companies.git
+composer require andrewdwallo/filament-companies:dev-filament-tenants --with-all-dependencies
 ```
 
-Execute the following Artisan command to scaffold the application. You will be prompted to choose between installing the **Base package** or enabling **Socialite** support.
+Scaffold your app using the tenant installer (base or Socialite):
 
 ```shell
 php artisan filament-tenants:install
@@ -67,7 +66,7 @@ If you encounter any issues while setting up your application with this package,
 
 After installation, there will be a tenant panel registered for your application. It is located within the `FilamentTenantsServiceProvider.php` file.
 
-In order for Tailwind to process the CSS used within this package and for the tenant panel, a user must [create a custom theme](https://filamentphp.com/docs/3.x/panels/themes#creating-a-custom-theme). 
+In order for Tailwind to process the CSS used within this package and for the tenant panel, a user must [create a custom theme](https://filamentphp.com/docs/4.x/styling/overview#creating-a-custom-theme).
 
 To create a custom theme for the tenant panel, you can use the following command:
 ```shell
@@ -75,23 +74,9 @@ php artisan make:filament-theme tenant
 ```
 > 🛠️ Please follow the instructions in the console to complete the setup process
 
-Here is a reference to the instructions that should show after running the command:
-```shell
-⇂ First, add a new item to the `input` array of `vite.config.js`: `resources/css/filament/tenant/theme.css`  
-⇂ Next, register the theme in the tenant panel provider using `->viteTheme('resources/css/filament/tenant/theme.css')`  
-⇂ Finally, run `npm run build` to compile the theme
-```
-
-After completing the process for creating a custom theme for the tenant panel, add this package's vendor directory into the content array of the `tailwind.config.js` file that should be located in the `resources/css/filament/tenant/` directory of your application:
-```js
-export default {
-    content: [
-        './resources/**/*.blade.php',
-        './vendor/filament/**/*.blade.php',
-        './vendor/andrewdwallo/filament-tenants/resources/views/**/*.blade.php', // The package's vendor directory
-    ],
-    // ...
-}
+Once the custom theme is created, add this package's vendor views to your tenant theme stylesheet:
+```css
+@source '../../../../vendor/andrewdwallo/filament-companies/resources/views';
 ```
 
 ### The User Panel
@@ -115,7 +100,7 @@ public function panel(Panel $panel): Panel
         ])
 }
 ```
-> 🛑 You may create a separate User Panel following the documentation for [creating a new panel](https://filamentphp.com/docs/3.x/panels/configuration#creating-a-new-panel)
+> 🛑 You may create a separate User Panel following the documentation for [creating a new panel](https://filamentphp.com/docs/4.x/panel-configuration#creating-a-new-panel)
 
 You must provide a way for your users to navigate to the Profile and Personal Access Tokens pages.
 
@@ -708,27 +693,3 @@ $user->hasTenantPermission($tenant, 'server:create') : bool
 * PR's and Issues are welcome
 * If you have a general question and not an issue please ask in either my package's [Discord Channel](https://discord.com/channels/883083792112300104/1059008724410310767) or make a discussion post.
 
-## Contributing
-* Fork this repository to your GitHub account.
-* Create a fresh Laravel & Filament Project.
-* Clone your fork in your App's root directory.
-* In the `/filament-tenants` directory, create a branch for your fix, e.g. `fix/error-message`.
-
-Install the package in your application's `composer.json` file, using the `dev` prefix followed by your branch's name:
-```json
-{
-    ...
-    "require": {
-        "andrewdwallo/filament-tenants": "dev-fix/error-message",
-    },
-    "repositories": [
-        {
-            "type": "path",
-            "url": "filament-tenants/"
-        }
-    ],
-    ...
-}
-```
-
-Now, run `composer update` and continue by following the installation instructions above.

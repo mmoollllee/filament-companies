@@ -2,69 +2,102 @@
 
 namespace Wallo\FilamentTenants\Http\Livewire;
 
+use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Concerns\InteractsWithForms;
+use Filament\Forms\Contracts\HasForms;
 use Filament\Notifications\Notification;
+use Filament\Schemas\Components\Flex;
+use Filament\Schemas\Components\Grid;
+use Filament\Schemas\Components\Section;
+use Filament\Schemas\Schema;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Auth;
-use Livewire\Attributes\Computed;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 use Wallo\FilamentTenants\Contracts\UpdatesUserProfileInformation;
 use Wallo\FilamentTenants\FilamentTenants;
-use Wallo\FilamentTenants\Pages\User\Profile;
 
-class UpdateProfileInformationForm extends Component
+class UpdateProfileInformationForm extends Component implements HasForms
 {
+    use InteractsWithForms;
     use WithFileUploads;
 
     public ?Authenticatable $user = null;
 
     /**
-     * The component's state.
+     * @var array<string, mixed>
      */
-    public array $state = [];
+    public ?array $data = [];
 
-    /**
-     * The new avatar for the user.
-     */
-    public $photo;
-
-    /**
-     * Determine if the verification email was sent.
-     */
-    public bool $verificationLinkSent = false;
-
-    /**
-     * Prepare the component.
-     */
     public function mount(): void
     {
-        $user = $this->user;
+        $user = $this->getUser();
 
-        $this->state = ['email' => $user?->email, ...$user?->withoutRelations()->toArray()];
+        if ($user === null) {
+            return;
+        }
+
+        $attributes = $user->withoutRelations()->getAttributes();
+
+        $this->form->fill([
+            'name' => $attributes['name'] ?? ($user->name ?? null),
+            'email' => $user->email,
+            'photo' => $attributes['profile_photo_path'] ?? null,
+        ]);
     }
 
-    /**
-     * Update the user's profile information.
-     */
+    public function form(Schema $schema): Schema
+    {
+        return $schema
+            ->components([
+                Flex::make([
+                    Grid::make(2)
+                        ->schema([
+                            TextInput::make('name')
+                                ->label(__('filament-tenants::default.fields.name'))
+                                ->required(),
+                            TextInput::make('email')
+                                ->label(__('filament-tenants::default.fields.email'))
+                                ->email()
+                                ->required()
+                                ->disabled(fn (): bool => ! auth()->user()?->isSuperAdmin())
+                                ->dehydrated(fn (): bool => auth()->user()?->isSuperAdmin())
+                                ->columnSpanFull(),
+                        ]),
+                    Section::make([
+                        FileUpload::make('photo')
+                            ->label(__('filament-tenants::default.labels.photo'))
+                            ->avatar()
+                            ->imageEditor()
+                            ->circleCropper()
+                            ->storeFiles(false)
+                            ->disk(FilamentTenants::profilePhotoDisk())
+                            ->directory(FilamentTenants::profilePhotoStoragePath()),
+                    ])
+                        ->grow(false)
+                        ->visible(fn (): bool => FilamentTenants::managesProfilePhotos()),
+                ])->columnSpanFull(),
+            ])
+            ->statePath('data');
+    }
+
     public function updateProfileInformation(UpdatesUserProfileInformation $updater): void
     {
         $this->resetErrorBag();
 
-        $updater->update(
-            $this->user,
-            $this->photo
-                ? [...$this->state, 'photo' => $this->photo]
-                : $this->state
-        );
+        $user = $this->getUser();
 
-        if (isset($this->photo)) {
-            redirect(Profile::getUrl());
+        if ($user === null) {
+            return;
         }
+
+        $updater->update($user, $this->form->getState());
 
         if (FilamentTenants::hasNotificationsFeature()) {
             if (method_exists($updater, 'profileInformationUpdated')) {
-                $updater->profileInformationUpdated($this->user, $this->state);
+                $updater->profileInformationUpdated($user, $this->data ?? []);
             } else {
                 $this->profileInformationUpdated();
             }
@@ -80,42 +113,11 @@ class UpdateProfileInformationForm extends Component
             ->send();
     }
 
-    /**
-     * Delete user's profile photo.
-     */
-    public function deleteProfilePhoto(): void
-    {
-        $this->user?->deleteProfilePhoto();
-    }
-
-    /**
-     * Sent the email verification.
-     */
-    public function sendEmailVerification(): void
-    {
-        $this->user?->sendEmailVerificationNotification();
-
-        $this->verificationLinkSent = true;
-
-        Notification::make()
-            ->title(__('filament-tenants::default.notifications.verification_link_sent.title'))
-            ->success()
-            ->body(__('filament-tenants::default.notifications.verification_link_sent.body'))
-            ->send();
-    }
-
-    /**
-     * Get the current user of the application.
-     */
-    #[Computed]
-    public function user(): ?Authenticatable
+    protected function getUser(): ?Authenticatable
     {
         return $this->user ?? Auth::user();
     }
 
-    /**
-     * Render the component.
-     */
     public function render(): View
     {
         return view('filament-tenants::profile.update-profile-information-form');

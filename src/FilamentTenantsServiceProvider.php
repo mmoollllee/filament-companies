@@ -9,6 +9,7 @@ use Wallo\FilamentTenants\Http\Livewire\ConnectedAccountsForm;
 use Wallo\FilamentTenants\Http\Livewire\DeleteTenantForm;
 use Wallo\FilamentTenants\Http\Livewire\DeleteUserForm;
 use Wallo\FilamentTenants\Http\Livewire\LogoutOtherBrowserSessionsForm;
+use Wallo\FilamentTenants\Http\Livewire\UserTenantMembershipsForm;
 use Wallo\FilamentTenants\Http\Livewire\SetPasswordForm;
 use Wallo\FilamentTenants\Http\Livewire\UpdateTenantNameForm;
 use Wallo\FilamentTenants\Http\Livewire\UpdatePasswordForm;
@@ -48,6 +49,7 @@ class FilamentTenantsServiceProvider extends ServiceProvider
     {
         $featureComponentMap = [
             'update-profile-information-form' => [FilamentTenants::canUpdateProfileInformation(), UpdateProfileInformationForm::class],
+            'user-tenant-memberships-form' => [FilamentTenants::canManageUserTenantMemberships(), UserTenantMembershipsForm::class],
             'update-password-form' => [FilamentTenants::canUpdatePasswords(), UpdatePasswordForm::class],
             'delete-user-form' => [FilamentTenants::hasAccountDeletionFeatures(), DeleteUserForm::class],
             'logout-other-browser-sessions-form' => [FilamentTenants::canManageBrowserSessions(), LogoutOtherBrowserSessionsForm::class],

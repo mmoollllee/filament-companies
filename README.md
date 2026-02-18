@@ -21,8 +21,10 @@ A comprehensive multi-tenant authentication and authorization solution for Filam
 
 - Renamed company to tenant across namespaces, models,...
 - Optional global super-admin behavior in `HasTenants::ownsTenant()` via `isSuperAdmin()` on your user model.
+- Default install stubs now scope tenant visibility to owner/member/invited tenants, with optional `isSuperAdmin()` bypass.
 - Tenant-specific page flow for registration/settings (`CreateTenant`, `TenantSettings`) including reusable `CreateTenant::formSchema()`.
 - Tenant invitation email subject now uses translations and includes the tenant name.
+- Added a profile "My Tenants" component for memberships, pending invitations, and assignment/removal actions.
 
 
 # Getting Started
@@ -221,6 +223,7 @@ class FilamentTenantsServiceProvider extends PanelProvider
             ->plugin(
                 FilamentTenants::make()
                     ->updateProfileInformation()  // Enables updating profile information
+                    ->userTenantMemberships()     // Enables My Tenants memberships/invitations management
                     ->updatePasswords()           // Enables password updates
                     ->setPasswords()              // Enables setting passwords only if Socialite is enabled
                     ->connectedAccounts()         // Enables connected account management only if Socialite is enabled
@@ -230,6 +233,22 @@ class FilamentTenantsServiceProvider extends PanelProvider
     }
 }
 ```
+
+### Tenant Memberships Section
+
+Profile pages can include a **My Tenants** section when you enable `->userTenantMemberships()` and the profiled user exposes `allTenants()` (for example via `Wallo\FilamentTenants\HasTenants`).
+
+This section supports:
+
+- Viewing current memberships and pending invitations.
+- Accepting or canceling invitations.
+- Assigning a user to a tenant (direct add or invitation mode).
+- Removing a user's tenant membership.
+
+Action visibility follows your existing authorization policies:
+
+- `addTenantEmployee` controls assignment and invitation acceptance.
+- `removeTenantEmployee` controls invitation cancelation and membership removal.
 
 ### Customizing Components
 
@@ -246,6 +265,19 @@ FilamentTenants::make()
     ->updateProfileInformation(component: CustomComponent::class);
 ```
 
+### Passing Profile User Context
+
+On the user profile page, components that define a public `user` property receive the profiled record automatically.
+
+```php
+class CustomComponent extends \Livewire\Component
+{
+    public mixed $user = null;
+}
+```
+
+If no profile record is present, the current authenticated user is used.
+
 ### Sorting Components
 
 If you would like to change the order of the profile features, you may do so by setting the `sort` parameter to the corresponding method. 
@@ -255,11 +287,12 @@ The default sort order is as follows:
 ```php
 FilamentTenants::make()
     ->updateProfileInformation(sort: 0)
-    ->updatePasswords(sort: 1)
-    ->setPasswords(sort: 2)
-    ->connectedAccounts(sort: 3)
-    ->manageBrowserSessions(sort: 4)
-    ->accountDeletion(sort: 5);
+    ->userTenantMemberships(sort: 1)
+    ->updatePasswords(sort: 2)
+    ->setPasswords(sort: 3)
+    ->connectedAccounts(sort: 4)
+    ->manageBrowserSessions(sort: 5)
+    ->accountDeletion(sort: 6);
 ```
 
 ### Adding Components
@@ -683,13 +716,23 @@ $user->hasTenantPermission($tenant, 'server:create') : bool
 ```
 > 📘 $user represents the current user of the application. Interchangeable with `Auth::user()`
 
+## Default Stub Behavior
+
+The published stubs include the following defaults, which you can adapt for your app:
+
+- `App\Models\User::isSuperAdmin()` returns `true` for user ID `1`.
+- `App\Models\Tenant` applies a global scope so authenticated users only see tenants where they are:
+  - owner,
+  - member, or
+  - invited via matching email.
+- That tenant scope is bypassed when `isSuperAdmin()` exists on the user model and returns `true`.
+
 ## Credits
 
+- [Original Plugin](https://github.com/andrewdwallo/filament-companies)
 - [Laravel Jetstream](https://jetstream.laravel.com/introduction.html)
 - [Socialstream](https://docs.socialstream.dev/)
 
 ## Notice
 * If you have any questions please ask
 * PR's and Issues are welcome
-* If you have a general question and not an issue please ask in either my package's [Discord Channel](https://discord.com/channels/883083792112300104/1059008724410310767) or make a discussion post.
-

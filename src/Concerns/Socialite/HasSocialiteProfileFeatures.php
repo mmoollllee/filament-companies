@@ -21,7 +21,7 @@ trait HasSocialiteProfileFeatures
     /**
      * Determine if the application supports setting user passwords.
      */
-    public function setPasswords(bool | Closure | null $condition = true, $component = SetPasswordForm::class, int $sort = 2): static
+    public function setPasswords(bool | Closure | null $condition = true, $component = SetPasswordForm::class, int $sort = 3): static
     {
         static::$canSetPasswords = $condition instanceof Closure ? $condition() : $condition;
         static::$setPasswordForm = $component;
@@ -33,7 +33,7 @@ trait HasSocialiteProfileFeatures
     /**
      * Determine if the application supports managing connected accounts.
      */
-    public function connectedAccounts(bool | Closure | null $condition = true, $component = ConnectedAccountsForm::class, int $sort = 3): static
+    public function connectedAccounts(bool | Closure | null $condition = true, $component = ConnectedAccountsForm::class, int $sort = 4): static
     {
         static::$canManageConnectedAccounts = $condition instanceof Closure ? $condition() : $condition;
         static::$connectedAccountsForm = $component;

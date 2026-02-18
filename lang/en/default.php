@@ -12,6 +12,7 @@ return [
 
     'buttons' => [
         'add' => 'Add',
+        'assign_tenant' => 'Assign Tenant',
         'cancel' => 'Cancel',
         'close' => 'Close',
         'connect' => 'Connect',
@@ -62,8 +63,18 @@ return [
         'password_confirmation' => 'Confirm Password',
         'permissions' => 'Permissions',
         'photo' => 'Photo',
+        'relationship' => 'Relationship',
+        'tenant' => 'Tenant',
+        'select_tenant' => 'Select a tenant',
         'role' => 'Role',
+        'actions' => 'Actions',
+        'assignment_mode' => 'Assignment Mode',
+        'send_invitation' => 'Send invitation email',
+        'add_directly' => 'Add directly',
         'setup_key' => 'Setup Key',
+        'member' => 'Member',
+        'owner' => 'Owner',
+        'invited' => 'Invited',
         'this_device' => 'This device',
         'token_name' => 'Token Name',
         'unknown' => 'Unknown',
@@ -138,6 +149,21 @@ return [
         'tenant_invitation_sent' => [
             'title' => 'Invitation sent',
             'body' => 'An invitation has been sent to **:email** to join your tenant.',
+        ],
+
+        'tenant_invitation_sent_by_admin' => [
+            'title' => 'Invitation sent',
+            'body' => 'An invitation has been sent to **:email** for tenant **:tenant**.',
+        ],
+
+        'tenant_assigned' => [
+            'title' => 'Tenant assigned',
+            'body' => '**:email** was added to tenant **:tenant**.',
+        ],
+
+        'tenant_removed' => [
+            'title' => 'Tenant membership removed',
+            'body' => '**:email** was removed from tenant **:tenant**.',
         ],
 
         'tenant_name_updated' => [
@@ -215,6 +241,7 @@ return [
         'create_token' => 'Create Personal Access Token',
         'create_tenant' => 'Create Tenant',
         'delete_account' => 'Delete Account',
+        'my_tenants' => 'My Tenants',
         'profile_information' => 'Profile Information',
         'set_password' => 'Set Password',
         'two_factor_authentication' => 'Two Factor Authentication',
@@ -228,6 +255,7 @@ return [
         'create_token' => 'Personal Access Tokens allow third-party services to authenticate with our application on your behalf.',
         'create_tenant' => 'Create a new tenant to collaborate with others on projects.',
         'delete_account' => 'Permanently delete your account.',
+        'my_tenants' => 'View the tenants you belong to and invitations that are still pending for your account.',
         'profile_information' => "Update your account's profile information and email address.",
         'set_password' => 'Ensure your account is using a long, random password to stay secure.',
         'two_factor_authentication' => 'Add additional security to your account using two factor authentication.',
@@ -251,6 +279,7 @@ return [
     'modal_titles' => [
         'token' => 'Personal Access Token',
         'token_permissions' => 'Personal Access Token Permissions',
+        'assign_tenant' => 'Assign Tenant',
         'confirm_password' => 'Confirm Password',
         'delete_token' => 'Delete Personal Access Token',
         'delete_account' => 'Delete Account',
@@ -265,6 +294,7 @@ return [
 
     'modal_descriptions' => [
         'copy_token' => "Please copy your new Personal Access Token. For your security, it won't be shown again.",
+        'assign_tenant' => 'Choose a tenant, role, and assignment mode for this user.',
         'confirm_password' => 'For your security, please confirm your password to continue.',
         'delete_account' => 'Please enter your password to confirm you would like to delete your account.',
         'delete_token' => 'Are you sure you would like to delete this Personal Access Token?',
@@ -342,6 +372,7 @@ return [
             'connected_accounts' => 'You are free to connect any social accounts to your profile and may remove any connected accounts at any time. If you feel any of your connected accounts have been compromised, you should disconnect them immediately and change your password.',
             'delete_user' => 'Once your account is deleted, all of its resources and data will be permanently deleted. Before deleting your account, please download any data or information that you wish to retain.',
             'logout_other_browser_sessions' => 'If necessary, you may log out of all of your other browser sessions across all of your devices. Some of your recent sessions are listed below; however, this list may not be exhaustive. If you feel your account has been compromised, you should also update your password.',
+            'no_tenants' => 'You do not currently belong to any tenants and have no pending invitations.',
         ],
 
         'tenants' => [

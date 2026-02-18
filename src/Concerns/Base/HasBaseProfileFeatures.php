@@ -7,6 +7,7 @@ use Wallo\FilamentTenants\Http\Livewire\DeleteUserForm;
 use Wallo\FilamentTenants\Http\Livewire\LogoutOtherBrowserSessionsForm;
 use Wallo\FilamentTenants\Http\Livewire\UpdatePasswordForm;
 use Wallo\FilamentTenants\Http\Livewire\UpdateProfileInformationForm;
+use Wallo\FilamentTenants\Http\Livewire\UserTenantMembershipsForm;
 
 trait HasBaseProfileFeatures
 {
@@ -19,6 +20,11 @@ trait HasBaseProfileFeatures
      * Determine if the application can update a user's password.
      */
     public static bool $canUpdatePasswords = false;
+
+    /**
+     * Determine if the application can manage a user's tenant memberships.
+     */
+    public static bool $canManageUserTenantMemberships = false;
 
     /**
      * Determine if the tenant is managing profile photos.
@@ -65,7 +71,7 @@ trait HasBaseProfileFeatures
     /**
      * Determine if the application supports updating user passwords.
      */
-    public function updatePasswords(bool | Closure | null $condition = true, $component = UpdatePasswordForm::class, int $sort = 1): static
+    public function updatePasswords(bool | Closure | null $condition = true, $component = UpdatePasswordForm::class, int $sort = 2): static
     {
         static::$canUpdatePasswords = $condition instanceof Closure ? $condition() : $condition;
         static::$updatePasswordForm = $component;
@@ -75,9 +81,21 @@ trait HasBaseProfileFeatures
     }
 
     /**
+     * Determine if the application supports managing user tenant memberships.
+     */
+    public function userTenantMemberships(bool | Closure | null $condition = true, $component = UserTenantMembershipsForm::class, int $sort = 1): static
+    {
+        static::$canManageUserTenantMemberships = $condition instanceof Closure ? $condition() : $condition;
+        static::$userTenantMembershipsForm = $component;
+        static::$componentSortOrder[$component] = $sort;
+
+        return $this;
+    }
+
+    /**
      * Determine if the application supports managing browser sessions.
      */
-    public function manageBrowserSessions(bool | Closure | null $condition = true, $component = LogoutOtherBrowserSessionsForm::class, int $sort = 4): static
+    public function manageBrowserSessions(bool | Closure | null $condition = true, $component = LogoutOtherBrowserSessionsForm::class, int $sort = 5): static
     {
         static::$canManageBrowserSessions = $condition instanceof Closure ? $condition() : $condition;
         static::$logoutOtherBrowserSessionsForm = $component;
@@ -89,7 +107,7 @@ trait HasBaseProfileFeatures
     /**
      * Determine if the application is using any account deletion features.
      */
-    public function accountDeletion(bool | Closure | null $condition = true, $component = DeleteUserForm::class, int $sort = 5): static
+    public function accountDeletion(bool | Closure | null $condition = true, $component = DeleteUserForm::class, int $sort = 6): static
     {
         static::$hasAccountDeletionFeatures = $condition instanceof Closure ? $condition() : $condition;
         static::$deleteUserForm = $component;
@@ -134,6 +152,14 @@ trait HasBaseProfileFeatures
     public static function canUpdatePasswords(): bool
     {
         return static::$canUpdatePasswords;
+    }
+
+    /**
+     * Determine if the application can manage user tenant memberships.
+     */
+    public static function canManageUserTenantMemberships(): bool
+    {
+        return static::$canManageUserTenantMemberships;
     }
 
     /**

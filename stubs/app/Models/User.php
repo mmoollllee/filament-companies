@@ -33,7 +33,6 @@ class User extends Authenticatable implements FilamentUser, HasAvatar, HasDefaul
         'name',
         'email',
         'password',
-        'role_id'
     ];
 
     /**
@@ -95,6 +94,6 @@ class User extends Authenticatable implements FilamentUser, HasAvatar, HasDefaul
 
     public function isSuperAdmin(): bool
     {
-        return $this->role_id === 0;
+        return $this->id == 1;
     }
 }

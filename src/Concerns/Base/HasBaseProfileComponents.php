@@ -7,6 +7,7 @@ use Wallo\FilamentTenants\Http\Livewire\DeleteUserForm;
 use Wallo\FilamentTenants\Http\Livewire\LogoutOtherBrowserSessionsForm;
 use Wallo\FilamentTenants\Http\Livewire\UpdatePasswordForm;
 use Wallo\FilamentTenants\Http\Livewire\UpdateProfileInformationForm;
+use Wallo\FilamentTenants\Http\Livewire\UserTenantMembershipsForm;
 
 trait HasBaseProfileComponents
 {
@@ -29,6 +30,11 @@ trait HasBaseProfileComponents
      * The component that should be used when displaying the "Logout Other Browser Sessions" form.
      */
     public static string $logoutOtherBrowserSessionsForm = LogoutOtherBrowserSessionsForm::class;
+
+    /**
+     * The component that should be used when displaying the "User Tenant Memberships" section.
+     */
+    public static string $userTenantMembershipsForm = UserTenantMembershipsForm::class;
 
     /**
      * Get the component that should be used when displaying the "Update Profile Information" form.
@@ -63,6 +69,14 @@ trait HasBaseProfileComponents
     }
 
     /**
+     * Get the component that should be used when displaying the "User Tenant Memberships" section.
+     */
+    public static function getUserTenantMembershipsForm(): string
+    {
+        return static::$userTenantMembershipsForm;
+    }
+
+    /**
      * Get the feature specific components.
      */
     public static function getBaseProfileComponents(): array
@@ -73,6 +87,10 @@ trait HasBaseProfileComponents
 
         if (static::canUpdateProfileInformation()) {
             $components[] = static::getUpdateProfileInformationForm();
+        }
+
+        if (static::canManageUserTenantMemberships() && $user !== null && method_exists($user, 'allTenants')) {
+            $components[] = static::getUserTenantMembershipsForm();
         }
 
         if ($passwordIsSet && static::canUpdatePasswords()) {

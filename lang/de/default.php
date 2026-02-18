@@ -12,6 +12,7 @@ return [
 
     'buttons' => [
         'add' => 'Hinzufügen',
+        'assign_tenant' => 'Firma zuweisen',
         'cancel' => 'Abbrechen',
         'close' => 'Schließen',
         'connect' => 'Verbinden',
@@ -62,8 +63,18 @@ return [
         'password_confirmation' => 'Passwort bestätigen',
         'permissions' => 'Berechtigungen',
         'photo' => 'Foto',
+        'relationship' => 'Beziehung',
+        'tenant' => 'Firma',
+        'select_tenant' => 'Firma auswählen',
         'role' => 'Rolle',
+        'actions' => 'Aktionen',
+        'assignment_mode' => 'Zuweisungsmodus',
+        'send_invitation' => 'Einladungs-E-Mail senden',
+        'add_directly' => 'Direkt hinzufügen',
         'setup_key' => 'Einrichtungsschlüssel',
+        'member' => 'Mitglied',
+        'owner' => 'Inhaber',
+        'invited' => 'Eingeladen',
         'this_device' => 'Dieses Gerät',
         'token_name' => 'Token-Name',
         'unknown' => 'Unbekannt',
@@ -136,6 +147,21 @@ return [
         'tenant_invitation_sent' => [
             'title' => 'Einladung gesendet',
             'body' => 'Eine Einladung wurde an **:email** gesendet, um Ihrer Firma beizutreten.',
+        ],
+
+        'tenant_invitation_sent_by_admin' => [
+            'title' => 'Einladung gesendet',
+            'body' => 'Eine Einladung wurde an **:email** für die Firma **:tenant** gesendet.',
+        ],
+
+        'tenant_assigned' => [
+            'title' => 'Firma zugewiesen',
+            'body' => '**:email** wurde der Firma **:tenant** hinzugefügt.',
+        ],
+
+        'tenant_removed' => [
+            'title' => 'Mitgliedschaft entfernt',
+            'body' => '**:email** wurde aus der Firma **:tenant** entfernt.',
         ],
 
         'tenant_name_updated' => [
@@ -218,6 +244,7 @@ return [
         'create_token' => 'Persönlichen Zugangstoken erstellen',
         'create_tenant' => 'Firma erstellen',
         'delete_account' => 'Konto löschen',
+        'my_tenants' => 'Meine Firmen',
         'profile_information' => 'Profilinformation',
         'set_password' => 'Passwort setzen',
         'two_factor_authentication' => 'Zwei-Faktor-Authentifizierung',
@@ -231,6 +258,7 @@ return [
         'create_token' => 'Persönliche Zugangstokens erlauben es Drittanbieterdiensten, sich in Ihrem Namen bei unserer Anwendung zu authentifizieren.',
         'create_tenant' => 'Erstellen Sie eine neue Firma, um mit anderen an Projekten zusammenzuarbeiten.',
         'delete_account' => 'Ihr Konto dauerhaft löschen.',
+        'my_tenants' => 'Zeigt Firmen, denen der Benutzer angehört, sowie ausstehende Einladungen.',
         'profile_information' => 'Aktualisieren Sie die Profilinformationen und E-Mail-Adresse Ihres Kontos.',
         'set_password' => 'Stellen Sie sicher, dass Ihr Konto mit einem langen, zufälligen Passwort gesichert ist.',
         'two_factor_authentication' => 'Fügen Sie Ihrem Konto zusätzliche Sicherheit hinzu, indem Sie die Zwei-Faktor-Authentifizierung verwenden.',
@@ -254,6 +282,7 @@ return [
     'modal_titles' => [
         'token' => 'Persönlicher Zugangstoken',
         'token_permissions' => 'Berechtigungen für persönlichen Zugangstoken',
+        'assign_tenant' => 'Firma zuweisen',
         'confirm_password' => 'Passwort bestätigen',
         'delete_token' => 'Persönlichen Zugangstoken löschen',
         'delete_account' => 'Konto löschen',
@@ -267,6 +296,7 @@ return [
     ],
     'modal_descriptions' => [
         'copy_token' => 'Bitte kopieren Sie Ihren neuen persönlichen Zugangstoken. Aus Sicherheitsgründen wird er nicht noch einmal angezeigt.',
+        'assign_tenant' => 'Wählen Sie Firma, Rolle und Zuweisungsmodus für diesen Benutzer.',
         'confirm_password' => 'Bitte bestätigen Sie aus Sicherheitsgründen Ihr Passwort, um fortzufahren.',
         'delete_account' => 'Bitte geben Sie Ihr Passwort ein, um die Löschung dieses Kontos zu bestätigen.',
         'delete_token' => 'Sind Sie sicher, dass Sie diese persönlichen Zugangstoken löschen möchten?',
@@ -344,6 +374,7 @@ return [
             'connected_accounts' => 'Sie können beliebige soziale Konten mit Ihrem Profil verbinden und jederzeit verbundene Konten entfernen. Wenn Sie glauben, dass eines Ihrer verbundenen Konten kompromittiert wurde, sollten Sie es sofort trennen und Ihr Passwort ändern.',
             'delete_user' => 'Sobald Ihr Konto gelöscht ist, werden alle seine Ressourcen und Daten dauerhaft gelöscht. Bevor Sie Ihr Konto löschen, laden Sie bitte alle Daten oder Informationen herunter, die Sie behalten möchten.',
             'logout_other_browser_sessions' => 'Wenn nötig, können Sie sich von all Ihren anderen Browsersitzungen auf allen Ihren Geräten abmelden. Einige Ihrer letzten Sitzungen sind unten aufgeführt; diese Liste ist jedoch möglicherweise nicht vollständig. Wenn Sie glauben, dass Ihr Konto kompromittiert wurde, sollten Sie auch Ihr Passwort aktualisieren.',
+            'no_tenants' => 'Dieser Benutzer gehört derzeit keiner Firma an und hat keine ausstehenden Einladungen.',
         ],
 
         'tenants' => [

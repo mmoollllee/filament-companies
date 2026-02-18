@@ -61,6 +61,7 @@ class FilamentTenantsServiceProvider extends PanelProvider
                     ->userPanel('admin')
                     ->switchCurrentTenant()
                     ->updateProfileInformation()
+                    ->userTenantMemberships()
                     ->updatePasswords()
                     ->manageBrowserSessions()
                     ->accountDeletion()

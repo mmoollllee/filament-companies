@@ -17,5 +17,7 @@
                 </x-filament::button>
             </div>
         </form>
+
+        <x-filament-actions::modals />
     </x-filament::section>
 </x-filament-tenants::grid-section>

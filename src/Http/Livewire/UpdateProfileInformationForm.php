@@ -4,12 +4,12 @@ namespace Wallo\FilamentTenants\Http\Livewire;
 
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\TextInput;
-use Filament\Forms\Concerns\InteractsWithForms;
-use Filament\Forms\Contracts\HasForms;
 use Filament\Notifications\Notification;
+use Filament\Schemas\Concerns\InteractsWithSchemas;
 use Filament\Schemas\Components\Flex;
 use Filament\Schemas\Components\Grid;
 use Filament\Schemas\Components\Section;
+use Filament\Schemas\Contracts\HasSchemas;
 use Filament\Schemas\Schema;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Contracts\View\View;
@@ -19,9 +19,9 @@ use Livewire\WithFileUploads;
 use Wallo\FilamentTenants\Contracts\UpdatesUserProfileInformation;
 use Wallo\FilamentTenants\FilamentTenants;
 
-class UpdateProfileInformationForm extends Component implements HasForms
+class UpdateProfileInformationForm extends Component implements HasSchemas
 {
-    use InteractsWithForms;
+    use InteractsWithSchemas;
     use WithFileUploads;
 
     public ?Authenticatable $user = null;
@@ -36,6 +36,8 @@ class UpdateProfileInformationForm extends Component implements HasForms
         $user = $this->getUser();
 
         if ($user === null) {
+            $this->form->fill();
+
             return;
         }
 
@@ -80,6 +82,7 @@ class UpdateProfileInformationForm extends Component implements HasForms
                         ->visible(fn (): bool => FilamentTenants::managesProfilePhotos()),
                 ])->columnSpanFull(),
             ])
+            ->model($user = $this->getUser())
             ->statePath('data');
     }
 

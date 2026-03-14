@@ -68,7 +68,7 @@ If you encounter any issues while setting up your application with this package,
 
 After installation, there will be a tenant panel registered for your application. It is located within the `FilamentTenantsServiceProvider.php` file.
 
-In order for Tailwind to process the CSS used within this package and for the tenant panel, a user must [create a custom theme](https://filamentphp.com/docs/4.x/styling/overview#creating-a-custom-theme).
+In order for Tailwind to process the CSS used within this package and for the tenant panel, a user must [create a custom theme](https://filamentphp.com/docs/5.x/styling/overview#creating-a-custom-theme).
 
 To create a custom theme for the tenant panel, you can use the following command:
 ```shell
@@ -102,7 +102,7 @@ public function panel(Panel $panel): Panel
         ])
 }
 ```
-> 🛑 You may create a separate User Panel following the documentation for [creating a new panel](https://filamentphp.com/docs/4.x/panel-configuration#creating-a-new-panel)
+> 🛑 You may create a separate User Panel following the documentation for [creating a new panel](https://filamentphp.com/docs/5.x/panel-configuration#creating-a-new-panel)
 
 You must provide a way for your users to navigate to the Profile and Personal Access Tokens pages.
 

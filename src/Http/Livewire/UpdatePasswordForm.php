@@ -3,9 +3,9 @@
 namespace Wallo\FilamentTenants\Http\Livewire;
 
 use Filament\Forms\Components\TextInput;
-use Filament\Forms\Concerns\InteractsWithForms;
-use Filament\Forms\Contracts\HasForms;
 use Filament\Notifications\Notification;
+use Filament\Schemas\Concerns\InteractsWithSchemas;
+use Filament\Schemas\Contracts\HasSchemas;
 use Filament\Schemas\Schema;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Contracts\View\View;
@@ -14,9 +14,9 @@ use Livewire\Component;
 use Wallo\FilamentTenants\Contracts\UpdatesUserPasswords;
 use Wallo\FilamentTenants\FilamentTenants;
 
-class UpdatePasswordForm extends Component implements HasForms
+class UpdatePasswordForm extends Component implements HasSchemas
 {
-    use InteractsWithForms;
+    use InteractsWithSchemas;
 
     public ?Authenticatable $user = null;
 
@@ -55,6 +55,7 @@ class UpdatePasswordForm extends Component implements HasForms
                     ->revealable()
                     ->required(),
             ])
+            ->model($this->getUser())
             ->statePath('data');
     }
 

@@ -3,22 +3,22 @@
 namespace Wallo\FilamentTenants\Http\Livewire;
 
 use Filament\Facades\Filament;
+use Filament\Notifications\Notification;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
-use Filament\Notifications\Notification;
+use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
 use Livewire\Component;
-use Livewire\Features\SupportRedirects\Redirector;
 use Wallo\FilamentTenants\Contracts\DeletesUsers;
 use Wallo\FilamentTenants\FilamentTenants;
 
 class DeleteUserForm extends Component
 {
     public ?Authenticatable $user = null;
-    
+
     /**
      * The user's current password.
      */
@@ -67,8 +67,8 @@ class DeleteUserForm extends Component
         }
 
         if (FilamentTenants::hasNotificationsFeature()) {
-            if (method_exists($auth->user(), 'passwordUpdated')) {
-                $deleter->userDeleted($this->user, $this->state);
+            if (method_exists($deleter, 'userDeleted')) {
+                $deleter->userDeleted($this->user);
             } else {
                 $this->userDeleted();
             }

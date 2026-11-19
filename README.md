@@ -4,6 +4,9 @@
 
 # Filament Tenants (Fork of Filament Companies)
 
+> [!WARNING]
+> **This fork is no longer maintained.** Tenant memberships and invitations are now handled by [`mmoollllee/filament-tenant-access`](https://github.com/mmoollllee/filament-tenant-access), the profile page and profile photos by [`mmoollllee/filament-user-profile`](https://github.com/mmoollllee/filament-user-profile). For the original package, see [`andrewdwallo/filament-companies`](https://github.com/andrewdwallo/filament-companies).
+
 A comprehensive multi-tenant authentication and authorization solution for Filament, adapted from `andrewdwallo/filament-companies` with tenant-first naming and APIs.
 
 - 🔥 **Socialite**
